@@ -11,4 +11,8 @@ class RestaurantsController < ApplicationController
 		@restaurant = Restaurant.create(params[:restaurant].permit(:name))
 		redirect_to '/restaurants'
 	end
+
+	def show
+		@restaurant = Restaurant.find(params[:id])
+	end
 end

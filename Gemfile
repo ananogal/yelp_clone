@@ -30,6 +30,10 @@ gem 'spring',        group: :development
 
 gem 'omniauth-facebook'
 
-gem 'rspec-rails', group: :test
-gem 'capybara', group: :test
-gem 'rspec-collection_matchers', group: :test
+group :development, :test do
+	gem 'rspec-rails', group: :test
+	gem 'capybara', group: :test
+	gem 'rspec-collection_matchers', group: :test
+	gem 'warden'
+	gem 'database_cleaner'
+end

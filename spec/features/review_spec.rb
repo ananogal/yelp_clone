@@ -55,4 +55,30 @@ describe 'While reviewing' do
 		end
 	end
 
+	context 'Average rating' do
+
+		before do
+			Restaurant.create(name: 'KFC')
+			@ana = User.create(email: "ana@test.com", password: "password", password_confirmation: "password")
+			@peter = User.create(email: "peter@test.com", password: "password", password_confirmation: "password")
+		end
+
+		it 'Displays an average rating for all reviews' do
+			login_as @ana
+			leave_review('soso', 3)
+			logout
+			login_as @peter
+			leave_review('Great', 5)
+			expect(page).to have_content "Average rating: ★★★★☆"
+		end
+	end
+
+	def leave_review(thoughts, rating) 
+		visit '/'
+		click_link 'Review KFC'
+		fill_in "Thoughts", with: thoughts
+		select rating, from: "Rating"
+		click_button "Leave Review"
+	end
+
 end

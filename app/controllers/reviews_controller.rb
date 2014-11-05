@@ -13,6 +13,13 @@ class ReviewsController < ApplicationController
 		redirect_to restaurants_path
 	end
 
+	def destroy
+		@review = Review.find(params[:review])
+		@review.destroy
+		flash[:notice] = 'Review deleted successfully'
+		redirect_to '/'
+	end
+
 	def review_params
 		params.require(:review).permit(:thoughts, :rating, :user_id)
 	end

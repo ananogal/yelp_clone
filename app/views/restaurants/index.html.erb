@@ -8,7 +8,7 @@
 					<li>	
 						<%= review.thoughts%>, <strong> <%= review.rating%></strong>/5
 						<% if current_user == review.user%>
-							<%= link_to "Delete", restaurant_reviews_path(restaurant), method: :delete%>
+							<%= link_to "Delete", restaurant_reviews_path(restaurant, review: review), method: :delete%>
 						<%end%>
 					</li>	
 				<% end%>

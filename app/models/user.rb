@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
          :omniauthable, :omniauth_providers => [:facebook]
 
   has_many :restaurants
+  has_many :reviews
 
   def self.from_omniauth(auth)
   	where(provider: auth.provider, uid: auth.id).first_or_create do | user |

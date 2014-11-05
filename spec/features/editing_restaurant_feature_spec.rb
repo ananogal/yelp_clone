@@ -9,6 +9,7 @@ describe 'Editing restaurant' do
 		end
 
 		it 'should not allow you to edit a restaurant that you have not created' do
+			visit '/'
 			login_as @peter
 			expect(page).not_to have_link 'Edit KFC'
 		end

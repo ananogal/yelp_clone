@@ -36,4 +36,5 @@ group :development, :test do
 	gem 'rspec-collection_matchers', group: :test
 	gem 'warden'
 	gem 'database_cleaner'
+	gem 'launchy'
 end

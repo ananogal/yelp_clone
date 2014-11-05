@@ -27,4 +27,26 @@ describe 'user reviewing' do
 		end
 	end
 
+	context 'deleting a review' do
+		before do
+			@ana = User.create(email: "ana@test.com", password: "password", password_confirmation: "password")
+			login_as @ana
+			@restaurant = @ana.restaurants.create(name: "KFC")
+			@restaurant.reviews.create(thoughts: "blabla", rating: 3, user_id: @ana.id)
+		end
+
+		it 'can delete the review if it has created it' do
+			visit '/' 
+			save_and_open_page
+			expect(page).to have_content "Delete"
+		end
+
+		it 'can not delete a review if it didnt created' do
+			@peter = User.create(email: "peter@test.com", password: "password", password_confirmation: "password")
+			login_as @peter
+			visit '/'
+			expect(page).not_to have_content 'Delete'
+		end
+	end
+
 end

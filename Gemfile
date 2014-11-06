@@ -37,4 +37,5 @@ group :development, :test do
 	gem 'warden'
 	gem 'database_cleaner'
 	gem 'launchy'
+	gem 'poltergeist', group: :test
 end

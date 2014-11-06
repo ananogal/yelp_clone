@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   root to:"restaurants#index"
 
   resources :restaurants, shallow:true do
-    resource :reviews do
-    	resource :endorsements
+    resources :reviews do
+    	resources :endorsements
     end
   end
 end

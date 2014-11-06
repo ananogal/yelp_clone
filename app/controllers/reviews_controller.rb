@@ -4,6 +4,11 @@ class ReviewsController < ApplicationController
 	
 	def new 
 		@restaurant = Restaurant.find(params[:restaurant_id])
+		@hasReview = @restaurant.reviews.where(user_id: current_user.id)
+		if @hasReview.count > 0
+			flash[:alert] = 'You have already reviewed this restaurant'
+			redirect_to restaurants_path
+		end
 		@review = Review.new
 	end
 
@@ -14,10 +19,10 @@ class ReviewsController < ApplicationController
 	end
 
 	def destroy
-		@review = Review.find(params[:review])
+		@review = Review.find(params[:review_id])
 		@review.destroy
 		flash[:notice] = 'Review deleted successfully'
-		redirect_to '/'
+		redirect_to restaurants_path
 	end
 
 	def review_params

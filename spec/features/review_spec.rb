@@ -4,8 +4,8 @@ describe 'While reviewing' do
 
 	context 'while creating a review' do
 		before do
-			Restaurant.create(name: 'KFC')
 			@ana = User.create(email: "ana@test.com", password: "password", password_confirmation: "password")
+			@kfc = @ana.restaurants.create(name: 'KFC')
 		end
 
 		it 'should allow users to leave a review using a form' do
@@ -15,7 +15,6 @@ describe 'While reviewing' do
 			fill_in "Thoughts", with: 'so so'
 			select '3', from: 'Rating'
 			click_button 'Leave Review'
-
 			expect(current_path).to eq '/restaurants'
 			expect(page).to have_content('so so')
 		end
@@ -25,6 +24,15 @@ describe 'While reviewing' do
 			click_link "Review KFC"
 			expect(current_path).to eq '/users/sign_in'
 		end
+
+		it 'should only leave one review per restaurant' do
+			@kfc.reviews.create(thoughts: "blabla", rating: 3, user_id: @ana.id)
+			visit '/'
+			login_as @ana
+			click_link 'Review KFC'
+			expect(page).to have_content('You have already reviewed this restaurant')
+		end
+
 	end
 
 	context 'while deleting a review' do

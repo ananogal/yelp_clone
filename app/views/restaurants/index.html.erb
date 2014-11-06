@@ -1,17 +1,17 @@
 <%if @restaurants.any?%>
 	<%@restaurants.each do |restaurant| %>
 		<h2><%= link_to "#{restaurant.name}", restaurant_path(restaurant)%>  </h2>
-		<h3>Reviews for <%= restaurant.name%></h3>
-		<h3>Average rating: <%= star_rating(restaurant.average_rating.to_i) %></h3>
+		<h3>Reviews for <%= restaurant.name%> Average rating: <%= star_rating(restaurant.average_rating.to_i) %></h3>
 		<% if restaurant.reviews.any?%>
 			<ul>
 				<%restaurant.reviews.each do |review|%>
 					<li>	
 						<%= review.thoughts%>, <strong> <%= review.rating%></strong>/5
+						<%= link_to 'Endorse', review_endorsements_path(review), class: 'endorsements-link'%>
+						<span class="endorsements_count"> <%= review.endorsements.count %> </span> endorsement
 						<% if current_user == review.user%>
-							<%= link_to "Delete", restaurant_reviews_path(restaurant, review: review), method: :delete%>
+							<%= link_to "Delete", review_path(review), method: :delete%>
 						<%end%>
-						<p><%= review.endorsements.count %> endorsements</p>
 					</li>	
 				<% end%>
 			</ul>
@@ -22,7 +22,7 @@
 			<%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant)%>
 			<%= link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete %>
 		<% end%>
-		<%= link_to "Review #{restaurant.name}", new_restaurant_reviews_path(restaurant)%>
+		<%= link_to "Review #{restaurant.name}", new_restaurant_review_path(restaurant)%>
 	<%end%>
 <%else%>
 	No restaurants yet!

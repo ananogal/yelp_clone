@@ -2,12 +2,7 @@ require 'rails_helper'
 
 describe 'restaurants' do 
 	before do
-		visit '/'
-		click_link 'Sign up'
-		fill_in('Email', with: 'test@example.com')
-	  fill_in('Password', with: 'testtest')
-	  fill_in('Password confirmation', with: 'testtest')
-	  click_button('Sign up')
+		@ana = User.create(email: "ana@test.com", password:"12345678",  password_confirmation:"12345678")
 	end 
 
 	context 'no restaurants have been added' do 
@@ -34,6 +29,7 @@ describe 'restaurants' do
 
 		it 'prompts user to fill out a form, then displays the new restaurant' do
 			visit '/restaurants'
+			login_as @ana
 			click_link 'Add a restaurant'
 			fill_in 'Name', with: 'KFC'
 			click_button 'Create Restaurant'
@@ -44,6 +40,7 @@ describe 'restaurants' do
 		context 'an invalid restaurant' do
 			it 'does not let you submit a name that is too short' do
 				visit '/restaurants'
+				login_as @ana
 				click_link 'Add a restaurant'
 				fill_in 'Name', with: 'kf'
 				click_button 'Create Restaurant'
@@ -54,11 +51,6 @@ describe 'restaurants' do
 	end
 
 	context 'When a user is not logged in' do
-		before do
-			visit '/'
-			click_link 'Sign out'
-		end
-
 		it "can't create a restaurant" do
 			visit '/'
 			click_link 'Add a restaurant'
